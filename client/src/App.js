@@ -93,7 +93,7 @@ const App = () => {
     }
   
     refreshRows();
-  }, [words, spymaster]);
+  }, [words, spymaster, redsTurn]);
   
   const getCountFor = (color) => {
     //Tile matches color and is not clicked yet, counts as one
