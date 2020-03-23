@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import socketIOClient from 'socket.io-client'
 import Switch from "react-switch";
+
 import './App.css';
 import badSound from './assets/badSound.mp3';
 import goodSound from './assets/goodSound.mp3';
@@ -72,6 +73,7 @@ const App = () => {
         }
     }
     
+    //Lots of references to rows still. Its temp columns for now
     function refreshRows() {
       let newrows=[];
       let makeSqr = (w,i,holdJ) => <Square word={w} spymaster={spymaster} key={i + holdJ} handleClick={() => handleClick(i + holdJ)}/>;
@@ -79,7 +81,7 @@ const App = () => {
       for (let j=0; words.length >= j + 5; j+=5) {
         let sub = words.slice(j, j+5);
         newrows.push(
-          <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
+          <div key={"column" + j + "-" + (j + 5)} style={{display: 'flex', flexDirection: 'column', flex: 1}}>
             { sub.map((w, i) => makeSqr(w,i,j)) }
           </div>);
       }
@@ -115,16 +117,6 @@ const App = () => {
           <button style={{marginRight: '20px'}} onClick={() => changeTurn()}> Next turn </button>
         </div>
       </div>
-
-      {/*
-      <div style={{display: 'flex', margin: '10px', flex: 1}}>
-        {
-        	words.map((w,i) => {
-        	  return square(w)
-        	})
-        }
-      </div>
-      */} 
       
       <div style={{display: 'flex', flexDirection: 'row', margin: '10px', flex: 1}}>
       { rows }
