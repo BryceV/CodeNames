@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import socketIOClient from 'socket.io-client'
 import Switch from "react-switch";
+import { chunk } from 'lodash-es';
 
 import './App.css';
 import badSound from './assets/badSound.mp3';
@@ -73,18 +74,17 @@ const App = () => {
         }
     }
     
-    //Lots of references to rows still. Its temp columns for now
     function refreshRows() {
       let newrows=[];
-      let makeSqr = (w,i,holdJ) => <Square word={w} spymaster={spymaster} key={i + holdJ} handleClick={() => handleClick(i + holdJ)}/>;
-      
-      for (let j=0; words.length >= j + 5; j+=5) {
-        let sub = words.slice(j, j+5);
+      let makeSqr = (w,i) => <Square word={w} spymaster={spymaster} key={i} handleClick={() => handleClick(i)}/>;
+
+      chunk(words, 5).forEach((fiveWordChunk, rowIndex) => {
         newrows.push(
-          <div key={"column" + j + "-" + (j + 5)} style={{display: 'flex', flexDirection: 'column', flex: 1}}>
-            { sub.map((w, i) => makeSqr(w,i,j)) }
+          <div key={"row" + rowIndex} style={{display: 'flex', flex: 1}}>
+            { fiveWordChunk.map((w, i) => makeSqr(w,i + (rowIndex*5))) }
           </div>);
-      }
+      });
+
       setRows(newrows);
     }
   
@@ -118,7 +118,7 @@ const App = () => {
         </div>
       </div>
       
-      <div style={{display: 'flex', flexDirection: 'row', margin: '10px', flex: 1}}>
+      <div style={{display: 'flex', flexDirection: 'column', margin: '10px', flex: 1}}>
       { rows }
       </div>
      
@@ -162,8 +162,8 @@ const Square = ({word, spymaster, handleClick}) => {
   }
   
   return (
-    <div onClick={handleClick} style={{background: bgColor, margin: '5px', color: textColor, flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '20px', fontWeight: 'bold'}}>
-      {word.tileHeader.toUpperCase()}
+    <div onClick={handleClick} style={{minWidth: 0, background: bgColor, margin: '5px', color: textColor, flexBasis: '20%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <p style={{fontSize: '20px', fontWeight: 'bold', wordBreak: 'break-word'}}>{word.tileHeader.toUpperCase()}</p>
     </div>
   );
 }
