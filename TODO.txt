@@ -1,9 +1,9 @@
 1) Settings
 	-Enforce turn timer
 	-Change board size
-	-Change game mode (normal mode, hard mode, themed modes, etc)
+	-Change game mode (normal mode, hard mode, more themed modes, random words fetched from dictionary api, etc)
 2) Party lobbies (think jackbox games)
 	-You can chose your team color from here/maybe a team name and player name
 3) Win/loss counter just for that game session
-4) Game score boards (Maybe wins for team with "name". This isnt enforceable though)
-5) Fun audio sounds for winning/losing, bad/good turns
+4) Game score boards (Maybe wins for team with "name". Like an arcade score board)
+5) Fun audio sounds for winning/losing, increase clapping sound for a series of correct words
