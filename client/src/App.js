@@ -74,20 +74,14 @@ const App = () => {
     
     function refreshRows() {
       let newrows=[];
-      let j=0;
-      while (words.length >= j + 5) {
+      let makeSqr = (w,i,holdJ) => <Square word={w} spymaster={spymaster} key={i + holdJ} handleClick={() => handleClick(i + holdJ)}/>;
+      
+      for (let j=0; words.length >= j + 5; j+=5) {
         let sub = words.slice(j, j+5);
         newrows.push(
           <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
-              {sub.map((w, i) => {
-                let s = (function(holdJ){
-                  return <Square word={w} spymaster={spymaster} key={i + holdJ} handleClick={() => handleClick(i + holdJ)}/> 
-                })(j);
-                
-                return s;
-              })}
+            { sub.map((w, i) => makeSqr(w,i,j)) }
           </div>);
-        j +=5;
       }
       setRows(newrows);
     }
@@ -133,9 +127,7 @@ const App = () => {
       */} 
       
       <div style={{display: 'flex', flexDirection: 'row', margin: '10px', flex: 1}}>
-      {
-      	rows.map(x => x)
-      }
+      { rows }
       </div>
      
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
